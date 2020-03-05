@@ -124,6 +124,7 @@ public class Application implements IApplication {
    */
   void storeQuote(Quote quote, String filename) throws IOException {
     throw new UnsupportedOperationException("The student has not implemented this method yet.");
+    /* TODO */
   }
   
   /**
