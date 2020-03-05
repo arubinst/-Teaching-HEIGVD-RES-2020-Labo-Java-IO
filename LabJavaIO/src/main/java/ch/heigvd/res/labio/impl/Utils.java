@@ -21,16 +21,27 @@ public class Utils {
      * contain any line separator, then the first element is an empty string.
      */
     public static String[] getNextLine(String lines) {
-        /* TODO */
         String[] separators = new String[] {"\r\n", "\r", "\n"};
-        int foundSep;
-        for(int sep = 0; sep < separators.length; ++sep){
-            
-        }
-        String[] toBeReturned = new String[] {lines.substring(), lines.substring(lines.indexOf("\r"))};
-        return toBeReturned;
+        int foundSep = -1;
+        int sep = 0;
 
-        //throw new UnsupportedOperationException("The student has not implemented this method yet.");
+        for(; sep < separators.length; ++sep){
+            foundSep = lines.indexOf(separators[sep]);
+            if(foundSep != -1){
+                break;
+            }
+        }
+
+        /*  */
+        if(foundSep == -1){
+            foundSep = 0;
+        }else{
+            foundSep = foundSep + separators[sep].length();
+        }
+
+        String first = lines.substring(0, foundSep);
+        String second = lines.substring(foundSep);
+        return new String[] { first, second };
     }
 
 }
