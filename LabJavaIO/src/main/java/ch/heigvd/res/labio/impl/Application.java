@@ -116,7 +116,8 @@ public class Application implements IApplication {
    * @throws IOException if there was a problem when creating the file
    */
   void storeQuote(Quote quote, String filename) throws IOException {
-    StringBuilder path = new StringBuilder("quotes/");
+    StringBuilder path = new StringBuilder(Application.WORKSPACE_DIRECTORY);
+    path.append('/');
 
     for (String tag : quote.getTags()) {
       path.append(tag).append('/');
