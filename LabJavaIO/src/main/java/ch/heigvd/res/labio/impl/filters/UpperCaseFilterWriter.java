@@ -21,14 +21,7 @@ public class UpperCaseFilterWriter extends FilterWriter {
 
   @Override
   public void write(char[] cbuf, int off, int len) throws IOException {
-    // Check validity of the supplied offset and length
-    if (cbuf.length < off + len) {
-      throw new IndexOutOfBoundsException();
-    }
-
-    for (int i = 0; i < len; i++) {
-      write(cbuf[off + i]);
-    }
+    write(String.copyValueOf(cbuf, off, len));
   }
 
   @Override
