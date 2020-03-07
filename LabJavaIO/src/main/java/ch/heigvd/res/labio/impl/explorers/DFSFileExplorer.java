@@ -9,6 +9,10 @@ import java.io.File;
  * exploration of the file system and invokes the visitor for every encountered
  * node (file and directory). When the explorer reaches a directory, it visits all
  * files in the directory and then moves into the subdirectories.
+ *
+ * Note: this specification is wrong! If the DFS visit "all files in the directory and
+ * the moves into the subdirectories", then this test won't pass:
+ * ApplicationTest::theApplicationShouldBeAbleToGenerateTheListOfFileNames()
  * 
  * @author Olivier Liechti
  */
@@ -23,18 +27,8 @@ public class DFSFileExplorer implements IFileExplorer {
       return;
     }
 
-    // Visit all files first
     for (File child : childNodes) {
-      if (child.isFile()) {
-        visitor.visit(child);
-      }
-    }
-
-    // Then moves to subdirectories
-    for (File child : childNodes) {
-      if (child.isDirectory()) {
         explore(child, visitor);
-      }
     }
   }
 
