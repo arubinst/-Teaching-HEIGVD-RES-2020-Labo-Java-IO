@@ -122,11 +122,12 @@ public class Application implements IApplication {
    * 
    * @param quote the quote object, with tags and text
    * @param filename the name of the file to create and where to store the quote text
-   * @throws IOException 
+   * @throws IOException
    */
   private void storeQuote(Quote quote, String filename) throws IOException {
 
-    StringBuilder path = new StringBuilder("quotes/");
+    StringBuilder path = new StringBuilder(WORKSPACE_DIRECTORY);
+    path.append('/');
     List<String> tags = quote.getTags();
 
     // Create path
