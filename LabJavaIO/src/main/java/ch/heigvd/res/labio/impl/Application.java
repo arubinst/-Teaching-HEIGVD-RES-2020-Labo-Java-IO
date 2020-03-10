@@ -128,17 +128,21 @@ public class Application implements IApplication {
   void storeQuote(Quote quote, String filename) throws IOException {
 
     List<String> tags = quote.getTags();
-    StringBuilder filePathBuilder = new StringBuilder();
-    filePathBuilder.append("\\quotes\\");
+    StringBuilder filePathBuilder = new StringBuilder(Application.WORKSPACE_DIRECTORY);
+    filePathBuilder.append("/");
     for (String tag : tags) {
       filePathBuilder.append(tag);
-      filePathBuilder.append("\\");
+      filePathBuilder.append("/");
     }
+
+    String directoryPath = filePathBuilder.toString();
+    File directory = new File(directoryPath);
+    directory.mkdirs();
+
     filePathBuilder.append(filename);
 
     String filePath = filePathBuilder.toString();
     File outFile = new File(filePath);
-    boolean succeed = outFile.mkdirs();
     outFile.createNewFile();
 
     FileWriter writer = new FileWriter(filename);
@@ -156,6 +160,11 @@ public class Application implements IApplication {
     explorer.explore(new File(WORKSPACE_DIRECTORY), new IFileVisitor() {
       @Override
       public void visit(File file) {
+        try {
+          writer.write(file.getPath() + "\n");
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
         /*
          * There is a missing piece here. Notice how we use an anonymous class here. We provide the implementation
          * of the the IFileVisitor interface inline. You just have to add the body of the visit method, which should
