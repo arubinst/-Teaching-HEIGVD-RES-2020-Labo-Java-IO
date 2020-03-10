@@ -7,13 +7,15 @@ import ch.heigvd.res.labio.interfaces.IFileExplorer;
 import ch.heigvd.res.labio.interfaces.IFileVisitor;
 import ch.heigvd.res.labio.quotes.QuoteClient;
 import ch.heigvd.res.labio.quotes.Quote;
-import java.io.File;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.io.FileUtils;
+
+import javax.management.StringValueExp;
 
 /**
  *
@@ -90,7 +92,7 @@ public class Application implements IApplication {
        * one method provided by this class, which is responsible for storing the content of the
        * quote in a text file (and for generating the directories based on the tags).
        */
-      // TODO FBE: Call method under
+      storeQuote(quote, "quote-" + (i + 1) + ".utf8");
       LOG.info("Received a new joke with " + quote.getTags().size() + " tags.");
       for (String tag : quote.getTags()) {
         LOG.info("> " + tag);
@@ -124,7 +126,25 @@ public class Application implements IApplication {
    * @throws IOException 
    */
   void storeQuote(Quote quote, String filename) throws IOException {
-    throw new UnsupportedOperationException("The student has not implemented this method yet."); // TODO FBE
+
+    List<String> tags = quote.getTags();
+    StringBuilder filePathBuilder = new StringBuilder();
+    filePathBuilder.append("\\quotes\\");
+    for (String tag : tags) {
+      filePathBuilder.append(tag);
+      filePathBuilder.append("\\");
+    }
+    filePathBuilder.append(filename);
+
+    String filePath = filePathBuilder.toString();
+    File outFile = new File(filePath);
+    boolean succeed = outFile.mkdirs();
+    outFile.createNewFile();
+
+    FileWriter writer = new FileWriter(filename);
+    writer.write(quote.getQuote());
+
+    writer.close();
   }
   
   /**
