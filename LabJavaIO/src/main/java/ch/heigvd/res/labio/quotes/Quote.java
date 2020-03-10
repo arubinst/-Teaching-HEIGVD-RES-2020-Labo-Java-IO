@@ -17,7 +17,7 @@ public class Quote implements Serializable {
    * This is a class that describes the structure of the JSON payload that is
    * sent by the Chuck Norris API. The deserialization from JSON into Java is
    * handled automatically for us. This is something that we will see in the
-   * AMT course next year. 
+   * AMT course next year.
    */
   public class Value {
 
