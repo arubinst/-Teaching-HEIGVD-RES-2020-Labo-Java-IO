@@ -3,7 +3,10 @@ package ch.heigvd.res.labio.impl.filters;
 import java.io.FilterWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Arrays;
 import java.util.logging.Logger;
+
+import static ch.heigvd.res.labio.impl.Utils.getNextLine;
 
 /**
  * This class transforms the streams of character sent to the decorated writer.
@@ -18,24 +21,49 @@ import java.util.logging.Logger;
 public class FileNumberingFilterWriter extends FilterWriter {
 
   private static final Logger LOG = Logger.getLogger(FileNumberingFilterWriter.class.getName());
-
+  private int indexLine = 0;
+  private boolean newLine = false;
   public FileNumberingFilterWriter(Writer out) {
     super(out);
   }
 
   @Override
   public void write(String str, int off, int len) throws IOException {
-    throw new UnsupportedOperationException("The student has not implemented this method yet.");
+    String substring = str.substring(off, off + len);
+    StringBuilder result = new StringBuilder();
+    String[] lines = getNextLine(substring);
+    if (indexLine == 0) {
+      result.append(++indexLine);
+      result.append("\t");
+    }
+    while (!lines[0].equals(""))
+    {
+      result.append(lines[0]);
+      result.append(++indexLine);
+      result.append("\t");
+      lines = getNextLine(lines[1]);
+    }
+    if (!lines[1].equals(""))
+      result.append(lines[1]);
+    out.write(result.toString());
   }
 
   @Override
   public void write(char[] cbuf, int off, int len) throws IOException {
-    throw new UnsupportedOperationException("The student has not implemented this method yet.");
+    write(Arrays.toString(cbuf), off, len);
   }
 
   @Override
   public void write(int c) throws IOException {
-    throw new UnsupportedOperationException("The student has not implemented this method yet.");
+    if (indexLine == 0 || (newLine && c != '\n')) {
+      out.write(Integer.toString(++indexLine));
+      out.write('\t');
+      newLine = false;
+    }
+    if (c == '\n') {
+      newLine = true;
+    }
+    else newLine = c == '\r';
+    out.write(c);
   }
-
 }
