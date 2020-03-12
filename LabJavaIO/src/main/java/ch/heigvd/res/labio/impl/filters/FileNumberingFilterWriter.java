@@ -31,23 +31,47 @@ public class FileNumberingFilterWriter extends FilterWriter {
   @Override
   public void write(String str, int off, int len) throws IOException {
     StringBuilder stringBuilder = new StringBuilder();
-    String[] line = new String[] {"", str.substring(off, len)};
-    while (!(line = Utils.getNextLine(line[1]))[0].isEmpty()) {
+    String[] line = new String[] {"", str.substring(off, off + len)};
+
+    if(counter == 0) {
       stringBuilder.append(getNextNumber());
-      stringBuilder.append(line[0]);
     }
-    out.write(stringBuilder.toString(), off, len);
+
+    do {
+      line = Utils.getNextLine(line[1]);
+
+      if (!line[0].isEmpty()) {
+        stringBuilder.append(line[0]);
+        stringBuilder.append(getNextNumber());
+      } else if(!line[1].isEmpty()) {
+        stringBuilder.append(line[1]);
+      }
+    } while (!line[0].isEmpty());
+
+    out.write(stringBuilder.toString(), off, stringBuilder.length());
   }
 
   @Override
   public void write(char[] cbuf, int off, int len) throws IOException {
     StringBuilder stringBuilder = new StringBuilder();
-    String[] line = new String[] {"", Arrays.toString(cbuf).substring(off, len)};
-    while (!(line = Utils.getNextLine(line[1]))[0].isEmpty()) {
+    String[] line = new String[] {"", Arrays.toString(cbuf).substring(off, off + len)};
+
+    if(counter == 0) {
       stringBuilder.append(getNextNumber());
-      stringBuilder.append(line[0]);
     }
-    out.write(stringBuilder.toString().toCharArray(), off, len);
+
+    do {
+      line = Utils.getNextLine(line[1]);
+
+      if (!line[0].isEmpty()) {
+        stringBuilder.append(line[0]);
+        stringBuilder.append(getNextNumber());
+      } else if(!line[1].isEmpty()) {
+        stringBuilder.append(line[1]);
+      }
+    } while (!line[0].isEmpty());
+
+    out.write(stringBuilder.toString().toCharArray(), off, stringBuilder.length());
   }
 
   @Override
@@ -71,6 +95,6 @@ public class FileNumberingFilterWriter extends FilterWriter {
   }
 
   private String getNextNumber() {
-    return (++counter).toString() + "\t";
+    return (++counter) + "\t";
   }
 }
