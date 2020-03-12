@@ -3,6 +3,7 @@ package ch.heigvd.res.labio.impl.filters;
 import java.io.FilterWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 import static ch.heigvd.res.labio.impl.Utils.getNextLine;
@@ -31,43 +32,38 @@ public class FileNumberingFilterWriter extends FilterWriter {
     String substring = str.substring(off, off + len);
     StringBuilder result = new StringBuilder();
     String[] lines = getNextLine(substring);
-    int i = 1;
-    for (String line : lines)
-    {
-      result.append(i);
+    if (indexLine == 0) {
+      result.append(++indexLine);
       result.append("\t");
-      result.append(line);
-      i++;
     }
+    while (!lines[0].equals(""))
+    {
+      result.append(lines[0]);
+      result.append(++indexLine);
+      result.append("\t");
+      lines = getNextLine(lines[1]);
+    }
+    if (!lines[1].equals(""))
+      result.append(lines[1]);
     out.write(result.toString());
   }
 
   @Override
   public void write(char[] cbuf, int off, int len) throws IOException {
-    write(cbuf.toString(), off, len);
+    write(Arrays.toString(cbuf), off, len);
   }
 
   @Override
   public void write(int c) throws IOException {
-    if (indexLine == 0 || (newLine && c != '\n'))
-    {
+    if (indexLine == 0 || (newLine && c != '\n')) {
       out.write(Integer.toString(++indexLine));
       out.write('\t');
       newLine = false;
     }
-
     if (c == '\n') {
       newLine = true;
     }
-    else if (c == '\r') {
-      newLine = true;
-    }
-    else {
-      newLine = false;
-    }
-
+    else newLine = c == '\r';
     out.write(c);
-
   }
-
 }
