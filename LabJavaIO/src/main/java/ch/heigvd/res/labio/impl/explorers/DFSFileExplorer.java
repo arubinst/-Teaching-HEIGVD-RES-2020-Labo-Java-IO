@@ -18,15 +18,12 @@ public class DFSFileExplorer implements IFileExplorer {
   public void explore(File rootDirectory, IFileVisitor visitor) {
     File[] childrenDirectories = rootDirectory.listFiles();
 
-    //no children directory => end
-    if(childrenDirectories == null)
-    {
-      return;
-    }
-
     //visit files because DFS is in pre-order
-    for (File childrenDirectory : childrenDirectories) {
-        visitor.visit(childrenDirectory);
+    visitor.visit(rootDirectory);
+
+    //no children directory => end
+    if(childrenDirectories == null) {
+      return;
     }
 
     //continue DFS on childrenDirectories
