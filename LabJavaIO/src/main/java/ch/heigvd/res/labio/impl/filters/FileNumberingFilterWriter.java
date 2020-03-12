@@ -1,8 +1,11 @@
 package ch.heigvd.res.labio.impl.filters;
 
+import ch.heigvd.res.labio.impl.Utils;
+
 import java.io.FilterWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 /**
@@ -18,6 +21,8 @@ import java.util.logging.Logger;
 public class FileNumberingFilterWriter extends FilterWriter {
 
   private static final Logger LOG = Logger.getLogger(FileNumberingFilterWriter.class.getName());
+  private Integer counter = 0;
+  private int lastChar = 0;
 
   public FileNumberingFilterWriter(Writer out) {
     super(out);
@@ -25,17 +30,47 @@ public class FileNumberingFilterWriter extends FilterWriter {
 
   @Override
   public void write(String str, int off, int len) throws IOException {
-    throw new UnsupportedOperationException("The student has not implemented this method yet.");
+    StringBuilder stringBuilder = new StringBuilder();
+    String[] line = new String[] {"", str.substring(off, len)};
+    while (!(line = Utils.getNextLine(line[1]))[0].isEmpty()) {
+      stringBuilder.append(getNextNumber());
+      stringBuilder.append(line[0]);
+    }
+    out.write(stringBuilder.toString(), off, len);
   }
 
   @Override
   public void write(char[] cbuf, int off, int len) throws IOException {
-    throw new UnsupportedOperationException("The student has not implemented this method yet.");
+    StringBuilder stringBuilder = new StringBuilder();
+    String[] line = new String[] {"", Arrays.toString(cbuf).substring(off, len)};
+    while (!(line = Utils.getNextLine(line[1]))[0].isEmpty()) {
+      stringBuilder.append(getNextNumber());
+      stringBuilder.append(line[0]);
+    }
+    out.write(stringBuilder.toString().toCharArray(), off, len);
   }
 
   @Override
   public void write(int c) throws IOException {
-    throw new UnsupportedOperationException("The student has not implemented this method yet.");
+    if(counter == 0) {
+      out.write(getNextNumber());
+    }
+
+    if(lastChar == '\r') {
+      if(c != '\n'){
+        out.write(getNextNumber());
+      }
+    }
+
+    lastChar = c;
+    out.write(c);
+
+    if(c == '\n') {
+      out.write(getNextNumber());
+    }
   }
 
+  private String getNextNumber() {
+    return (++counter).toString() + "\t";
+  }
 }
