@@ -35,7 +35,7 @@ public class Utils {
     }
     if(breakPoint < 0)
       breakPoint =  Math.max(slashR, slashN);
-    
+
     if(breakPoint != 0){
       cutString[0] = lines.substring(0, breakPoint+1);
       cutString[1] = lines.substring(breakPoint+1);
