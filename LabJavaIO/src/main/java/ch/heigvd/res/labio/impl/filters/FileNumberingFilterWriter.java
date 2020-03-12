@@ -48,7 +48,7 @@ public class FileNumberingFilterWriter extends FilterWriter {
       }
     } while (!line[0].isEmpty());
 
-    out.write(stringBuilder.toString(), off, stringBuilder.length());
+    out.write(stringBuilder.toString(), 0, stringBuilder.length());
   }
 
   @Override
@@ -71,7 +71,7 @@ public class FileNumberingFilterWriter extends FilterWriter {
       }
     } while (!line[0].isEmpty());
 
-    out.write(stringBuilder.toString().toCharArray(), off, stringBuilder.length());
+    out.write(stringBuilder.toString(), 0, stringBuilder.length());
   }
 
   @Override
