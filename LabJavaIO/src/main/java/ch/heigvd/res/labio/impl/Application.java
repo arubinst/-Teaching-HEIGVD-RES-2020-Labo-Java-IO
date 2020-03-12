@@ -127,7 +127,8 @@ public class Application implements IApplication {
     path.append('/');
 
     for (String tag : quote.getTags()) {
-      path.append(tag).append('/');
+      path.append(tag)
+          .append('/');
     }
 
     File parentDirectory = new File(path.toString());

@@ -41,8 +41,8 @@ public class FileNumberingFilterWriter extends FilterWriter {
       line = Utils.getNextLine(line[1]);
 
       if (!line[0].isEmpty()) {
-        stringBuilder.append(line[0]);
-        stringBuilder.append(getNextNumber());
+        stringBuilder.append(line[0])
+          .append(getNextNumber());
       } else if(!line[1].isEmpty()) {
         stringBuilder.append(line[1]);
       }
@@ -64,8 +64,8 @@ public class FileNumberingFilterWriter extends FilterWriter {
       line = Utils.getNextLine(line[1]);
 
       if (!line[0].isEmpty()) {
-        stringBuilder.append(line[0]);
-        stringBuilder.append(getNextNumber());
+        stringBuilder.append(line[0])
+          .append(getNextNumber());
       } else if(!line[1].isEmpty()) {
         stringBuilder.append(line[1]);
       }
