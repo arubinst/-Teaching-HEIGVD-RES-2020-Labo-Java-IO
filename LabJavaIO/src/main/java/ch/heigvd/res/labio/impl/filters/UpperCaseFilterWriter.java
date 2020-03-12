@@ -9,6 +9,7 @@ import java.io.Writer;
  * @author Olivier Liechti
  */
 public class UpperCaseFilterWriter extends FilterWriter {
+  private int currentLine = 0;
   
   public UpperCaseFilterWriter(Writer wrappedWriter) {
     super(wrappedWriter);
@@ -27,7 +28,7 @@ public class UpperCaseFilterWriter extends FilterWriter {
 
   @Override
   public void write(int c) throws IOException {
-    write(Integer.toString(c), 0, 1);
+    out.write(Character.toUpperCase(c));
   }
 
 }

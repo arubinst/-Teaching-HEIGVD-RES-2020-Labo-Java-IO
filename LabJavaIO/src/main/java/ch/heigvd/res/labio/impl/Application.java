@@ -145,7 +145,7 @@ public class Application implements IApplication {
     File outFile = new File(filePath);
     outFile.createNewFile();
 
-    FileWriter writer = new FileWriter(filename);
+    FileWriter writer = new FileWriter(filePath);
     writer.write(quote.getQuote());
 
     writer.close();
