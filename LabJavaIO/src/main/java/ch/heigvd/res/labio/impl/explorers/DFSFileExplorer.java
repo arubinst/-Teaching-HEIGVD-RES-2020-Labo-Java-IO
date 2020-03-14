@@ -9,7 +9,11 @@ import java.io.File;
  * exploration of the file system and invokes the visitor for every encountered
  * node (file and directory). When the explorer reaches a directory, it visits all
  * files in the directory and then moves into the subdirectories.
- * 
+ *
+ * Remark: Je ne sais pas pourquoi mais je n'arrive pas à valider le test:
+ * theApplicationShouldBeAbleToGenerateTheListOfFileNames(). Il liste toujours les fichiers
+ * avant de parcourir les dossiers suivants. Je ne comprend pas.
+ *
  * @author Olivier Liechti
  */
 public class DFSFileExplorer implements IFileExplorer {
@@ -27,9 +31,9 @@ public class DFSFileExplorer implements IFileExplorer {
     for (File f : files) {
       if (f.isDirectory()) {
         explore(f, vistor);
+      }else {
+        vistor.visit(f);
       }
-
-      vistor.visit(f);
     }
   }
 
