@@ -11,7 +11,7 @@ import java.util.logging.Logger;
  * It then sends the line number and a tab character, before resuming the write
  * process.
  *
- * Hello\n\World -> 1\Hello\n2\tWorld
+ * Hello\n\World -> 1\tHello\n2\tWorld
  *
  * @author Olivier Liechti
  */
