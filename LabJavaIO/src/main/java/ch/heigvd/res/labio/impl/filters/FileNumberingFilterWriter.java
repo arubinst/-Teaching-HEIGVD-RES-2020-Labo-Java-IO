@@ -28,8 +28,11 @@ public class FileNumberingFilterWriter extends FilterWriter {
   @Override
   public void write(String str, int off, int len) throws IOException {
 
-    super.out.write(_count++ + "\t" + str.substring(off, off+len));
+    if(_count == 1) {
+      super.out.write(_count++ + "\t");
+    }
 
+    super.out.write(str.substring(off, off+len).replace("\n", "\n" + _count++ + "\t"));
   }
 
   @Override
