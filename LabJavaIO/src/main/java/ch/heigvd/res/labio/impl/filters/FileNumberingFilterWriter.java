@@ -52,5 +52,5 @@ public class FileNumberingFilterWriter extends FilterWriter {
 
     this.lastCharOfStr = c;
   }
-  
+
 }
