@@ -27,12 +27,15 @@ public class DFSFileExplorer implements IFileExplorer {
       return;
     }
 
+    for(File file : files) {
+      if(file.isFile()) {
+        vistor.visit(file);
+      }
+    }
     // Then moves to subdirectories
-    for (File f : files) {
-      if (f.isDirectory()) {
-        explore(f, vistor);
-      }else {
-        vistor.visit(f);
+    for (File directory : files) {
+      if (directory.isDirectory()) {
+        explore(directory, vistor);
       }
     }
   }
