@@ -17,8 +17,6 @@ public class DFSFileExplorer implements IFileExplorer {
   @Override
   public void explore(File rootDirectory, IFileVisitor vistor) {
     File[] files = rootDirectory.listFiles();
-    if(rootDirectory == null)
-        return;
     vistor.visit(rootDirectory);
 
     if(files == null) {
@@ -26,12 +24,12 @@ public class DFSFileExplorer implements IFileExplorer {
     }
 
     // Then moves to subdirectories
-    for (File child : files) {
-      if (child.isDirectory()) {
-        explore(child, vistor);
-      } else {
-        vistor.visit(child);
+    for (File f : files) {
+      if (f.isDirectory()) {
+        explore(f, vistor);
       }
+
+      vistor.visit(f);
     }
   }
 
