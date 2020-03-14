@@ -24,13 +24,7 @@ public class Utils {
     String[] result = { "", lines };
 
     //récupère l'index
-    int index = lines.contains("\r\n")            //teste pour \r\n
-                  ? lines.indexOf("\r\n")+2
-                  : lines.contains("\r")          //teste pour \r
-                      ? lines.indexOf("\r")+1
-                      : lines.contains("\n")      //teste pour \n
-                          ? lines.indexOf("\n")+1
-                          : -1;                   //valeur par défaut, si rien n'est trouvé
+    int index = getIndexNewLine(lines);
 
     //casse la ligne si un symbole est trouvé
     if(index != -1)
@@ -41,6 +35,17 @@ public class Utils {
 
     return result;
 
+  }
+
+  public static int getIndexNewLine(String lines)
+  {
+    return lines.contains("\r\n")             //teste pour \r\n
+              ? lines.indexOf("\r\n")+2
+              : lines.contains("\r")          //teste pour \r
+                  ? lines.indexOf("\r")+1
+                  : lines.contains("\n")      //teste pour \n
+                      ? lines.indexOf("\n")+1
+                      : -1;                   //valeur par défaut, si rien n'est trouvé
   }
 
 }
