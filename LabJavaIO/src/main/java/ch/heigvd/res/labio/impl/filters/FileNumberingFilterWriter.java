@@ -21,6 +21,7 @@ public class FileNumberingFilterWriter extends FilterWriter {
 
   private static final Logger LOG = Logger.getLogger(FileNumberingFilterWriter.class.getName());
   private int _count;
+  private boolean _newLine = false;
 
   public FileNumberingFilterWriter(Writer out) {
     super(out);
@@ -48,13 +49,33 @@ public class FileNumberingFilterWriter extends FilterWriter {
   }
 
   @Override
-  public void write(char[] cbuf, int off, int len) throws IOException {
-    throw new UnsupportedOperationException("The student has not implemented this method yet.");
+  public void write(char[] cbuf, int off, int len) throws IOException
+  {
+    write(String.valueOf(cbuf), off, len);
   }
 
   @Override
   public void write(int c) throws IOException {
-    throw new UnsupportedOperationException("The student has not implemented this method yet.");
+
+    //gère le \r\n afin de ne pas avoir 2 retours à la ligne
+    if(c == 10) {
+      _newLine = false;
+    }
+
+    //écrit le n° en début de ligne
+    if(_count == 1 || _newLine) {
+      super.out.write(_count++ + "\t");
+      _newLine = false;
+    }
+
+    //écrit le char passé en paramètre
+    super.out.write(String.valueOf((char)c));
+
+    //prépare le retour à la ligne
+    if(c == 13 || c == 10) {  // \r = 13  -  \n = 10
+      _newLine = true;
+    }
+
   }
 
 }
