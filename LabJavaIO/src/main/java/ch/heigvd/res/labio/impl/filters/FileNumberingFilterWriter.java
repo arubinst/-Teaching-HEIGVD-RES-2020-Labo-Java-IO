@@ -18,14 +18,18 @@ import java.util.logging.Logger;
 public class FileNumberingFilterWriter extends FilterWriter {
 
   private static final Logger LOG = Logger.getLogger(FileNumberingFilterWriter.class.getName());
+  private int _count;
 
   public FileNumberingFilterWriter(Writer out) {
     super(out);
+    _count = 1;
   }
 
   @Override
   public void write(String str, int off, int len) throws IOException {
-    throw new UnsupportedOperationException("The student has not implemented this method yet.");
+
+    super.out.write(_count++ + "\t" + str);
+
   }
 
   @Override
