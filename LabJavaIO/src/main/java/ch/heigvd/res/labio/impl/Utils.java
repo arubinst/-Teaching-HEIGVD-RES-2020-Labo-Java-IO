@@ -34,7 +34,7 @@ public class Utils {
     else if(lines.indexOf(NEWLINE_LINUX) > 0){
       index = lines.indexOf(NEWLINE_LINUX) + 1;
     }
-    
+
     System.out.println(lines);
 
     String[] tab = new String[]{
