@@ -4,6 +4,8 @@ import java.io.FilterWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * This class transforms the streams of character sent to the decorated writer.
@@ -23,19 +25,66 @@ public class FileNumberingFilterWriter extends FilterWriter {
     super(out);
   }
 
+  int curLineNbr = 0;
+
   @Override
   public void write(String str, int off, int len) throws IOException {
-    throw new UnsupportedOperationException("The student has not implemented this method yet.");
+
+    try {
+      curLineNbr = Integer.parseInt(str);
+    }
+      catch(NumberFormatException e){
+    }
+
+    int tabPos = str.indexOf('\t');
+
+    if(curLineNbr == 0){
+      out.write(Integer.toString(++curLineNbr)+'\t');
+    }
+
+    if(tabPos < 0 && tabPos > off){
+      out.write(Integer.toString(++curLineNbr)+'\t');
+    }
+    int lineNbr = 2;
+    String outStr = "";
+
+    for(int i = off; i<(len + off); i++){
+      out.write(str.charAt(i));
+      if( (str.charAt(i) == '\r' && i+1 <str.length() &&  str.charAt(i+1) != '\n'  )|| str.charAt(i) == '\n'){
+        out.write(strLine(++curLineNbr));
+      }
+    }
   }
 
   @Override
   public void write(char[] cbuf, int off, int len) throws IOException {
-    throw new UnsupportedOperationException("The student has not implemented this method yet.");
+    this.write(String.valueOf(cbuf), off, len);
+    //throw new UnsupportedOperationException("The student has not implemented this method yet.");
   }
+
+  int lastChar;
 
   @Override
   public void write(int c) throws IOException {
-    throw new UnsupportedOperationException("The student has not implemented this method yet.");
+
+    if(curLineNbr == 0){
+      out.write( strLine(++curLineNbr));
+    }
+
+    if(lastChar == '\r' && c != '\n'){
+      out.write( strLine(++curLineNbr));
+    }
+
+    out.write(c);
+    lastChar = c;
+
+    if (c == '\n') {
+      out.write( strLine(++curLineNbr));
+    }
+  }
+
+  private String strLine(int lineNbr){
+    return String.valueOf(lineNbr)+'\t';
   }
 
 }
