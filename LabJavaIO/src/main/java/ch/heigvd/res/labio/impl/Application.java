@@ -88,7 +88,6 @@ public class Application implements IApplication {
 
       indexQuote=i+1;
       storeQuote(quote, "quote-"+indexQuote+".utf8");
-      System.out.println(indexQuote);
       LOG.info("Received a new joke with " + quote.getTags().size() + " tags.");
       for (String tag : quote.getTags()) {
         LOG.info("> " + tag);

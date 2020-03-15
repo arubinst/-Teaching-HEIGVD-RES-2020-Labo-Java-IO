@@ -25,13 +25,13 @@ public class Utils {
     final String NEWLINE_MACOS = "\r";
     final String NEWLINE_LINUX = "\n";
 
-    if(lines.indexOf(NEWLINE_WINDOWS) > 0){
+    if(lines.indexOf(NEWLINE_WINDOWS) > -1){
       index = lines.indexOf(NEWLINE_WINDOWS) + 2;
     }
-    else if(lines.indexOf(NEWLINE_MACOS) > 0){
+    else if(lines.indexOf(NEWLINE_MACOS) > -1){
       index = lines.indexOf(NEWLINE_MACOS) + 1;
     }
-    else if(lines.indexOf(NEWLINE_LINUX) > 0){
+    else if(lines.indexOf(NEWLINE_LINUX) > -1){
       index = lines.indexOf(NEWLINE_LINUX) + 1;
     }
 
