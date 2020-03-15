@@ -10,28 +10,31 @@ import java.util.Arrays;
  * exploration of the file system and invokes the visitor for every encountered
  * node (file and directory). When the explorer reaches a directory, it visits all
  * files in the directory and then moves into the subdirectories.
- * 
+ *
  * @author Olivier Liechti
  */
 public class DFSFileExplorer implements IFileExplorer {
 
   @Override
   public void explore(File rootDirectory, IFileVisitor vistor) {
-    // If rootDirectory is a file, when end the discovery
-    vistor.visit(rootDirectory);
-    if(rootDirectory.isFile()){
+    if (rootDirectory == null){
+      System.out.println("Le fichier est NULL : Probleme");
       return;
     }
-    // list current directory file and sort
-    File[] currentFile = rootDirectory.listFiles();
-    if(currentFile == null){
-      return;
-    }
-    Arrays.sort(currentFile);
 
-    // For each file in the directory, we call visitor and DFS in sub-folder.
-    for(File f : currentFile){
-      if(f.isDirectory()){
+    //We need to visit beforehand the rootDirectory to make sure that the dir is not empty
+    vistor.visit(rootDirectory);
+
+    //As the rootDirectory is a File made of Files :
+    File[] files = rootDirectory.listFiles();
+
+
+    if (files != null && files.length > 0) {
+      Arrays.sort(files);
+
+      for (File f : files) {
+        //We want to make a recusrive call to this method on the file explored
+        //As we get to check if there is anything in this file, if not we check the next file.
         explore(f, vistor);
       }
     }
