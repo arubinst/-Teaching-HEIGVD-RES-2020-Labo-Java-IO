@@ -7,10 +7,8 @@ import ch.heigvd.res.labio.interfaces.IFileExplorer;
 import ch.heigvd.res.labio.interfaces.IFileVisitor;
 import ch.heigvd.res.labio.quotes.QuoteClient;
 import ch.heigvd.res.labio.quotes.Quote;
-import java.io.File;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
+
+import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.io.FileUtils;
@@ -84,13 +82,12 @@ public class Application implements IApplication {
     QuoteClient client = new QuoteClient();
     for (int i = 0; i < numberOfQuotes; i++) {
       Quote quote = client.fetchQuote();
-      /* There is a missing piece here!
-       * As you can see, this method handles the first part of the lab. It uses the web service
-       * client to fetch quotes. We have removed a single line from this method. It is a call to
-       * one method provided by this class, which is responsible for storing the content of the
-       * quote in a text file (and for generating the directories based on the tags).
-       */
+
+      /* here I use the convention quote-i.utf8 where i is a number of quote and
+      * utf8 is charset used
+      */
       LOG.info("Received a new joke with " + quote.getTags().size() + " tags.");
+      storeQuote(quote, "quote-" + i + ".utf8");
       for (String tag : quote.getTags()) {
         LOG.info("> " + tag);
       }
@@ -123,7 +120,23 @@ public class Application implements IApplication {
    * @throws IOException 
    */
   void storeQuote(Quote quote, String filename) throws IOException {
-    throw new UnsupportedOperationException("The student has not implemented this method yet.");
+    //create path
+    String path = Application.WORKSPACE_DIRECTORY + File.separator;
+    for (String tag : quote.getTags()) {
+      path = path + tag + File.separator;
+    }
+    /* I append the filename to the path*/
+    path = path + "/"+ filename;
+
+    File file = new File(path);
+    file.getParentFile().mkdirs();
+
+    /* I write the quote text into the file */
+    BufferedWriter output = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path), "UTF-8"));
+    output.write(quote.getQuote());
+    /*I flush the data and close the writer*/
+    output.flush();
+    output.close();
   }
   
   /**
@@ -140,6 +153,12 @@ public class Application implements IApplication {
          * of the the IFileVisitor interface inline. You just have to add the body of the visit method, which should
          * be pretty easy (we want to write the filename, including the path, to the writer passed in argument).
          */
+
+        try {
+          writer.write(file.getPath() + "\n");
+        } catch (IOException ex) {
+          Logger.getLogger(Application.class.getName()).log(Level.SEVERE, null, ex);
+        }
       }
     });
   }
