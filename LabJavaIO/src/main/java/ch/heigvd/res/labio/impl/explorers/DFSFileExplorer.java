@@ -2,6 +2,7 @@ package ch.heigvd.res.labio.impl.explorers;
 
 import ch.heigvd.res.labio.interfaces.IFileExplorer;
 import ch.heigvd.res.labio.interfaces.IFileVisitor;
+
 import java.io.File;
 
 /**
@@ -16,7 +17,17 @@ public class DFSFileExplorer implements IFileExplorer {
 
   @Override
   public void explore(File rootDirectory, IFileVisitor vistor) {
-    throw new UnsupportedOperationException("The student has not implemented this method yet.");
+    vistor.visit(rootDirectory);
+
+    File[] childs = rootDirectory.listFiles();
+
+    if(childs == null){
+      return;
+    }
+
+    for(File child : childs){
+      explore(child, vistor);
+    }
   }
 
 }
