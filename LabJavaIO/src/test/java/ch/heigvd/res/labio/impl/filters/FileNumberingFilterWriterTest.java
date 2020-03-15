@@ -33,6 +33,11 @@ public class FileNumberingFilterWriterTest {
     FileNumberingFilterWriter writer = new FileNumberingFilterWriter(stringWriter);
     writer.write(line1);
     writer.write(line2);
+    System.out.println("------------------------");
+    System.out.println("1\t" + line1 + "2\t" + line2 + "3\t");
+    System.out.println("------------------------");
+    System.out.println(stringWriter.toString());
+    System.out.println("------------------------");
     assertEquals("1\t" + line1 + "2\t" + line2 + "3\t", stringWriter.toString());
   }
   
