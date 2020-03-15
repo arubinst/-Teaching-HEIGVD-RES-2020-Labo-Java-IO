@@ -22,7 +22,6 @@ public class UpperCaseFilterWriter extends FilterWriter {
 
   @Override
   public void write(char[] cbuf, int off, int len) throws IOException {
-    // throw new UnsupportedOperationException("The student has not implemented this method yet.");
     for(int i = 0; i < len; ++i){
       out.write(String.valueOf(cbuf[off + i]).toUpperCase());
     }
